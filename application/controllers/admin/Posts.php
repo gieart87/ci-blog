@@ -104,7 +104,7 @@ class Posts extends Admin_Controller {
                     }
                 }
             }
-            $this->session->set_flashdata('message', message_box('New post has been saved','success'));
+            $this->session->set_flashdata('message', message_box('Post has been saved','success'));
             redirect('admin/posts');
         }
         $this->data['post'] = $this->Post->find_by_id($id);
