@@ -1,25 +1,23 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Category extends CI_Model{
+class Asset extends CI_Model{
 
-	var $table = 'categories';
+	var $table = 'assets';
 
 
 	function find($limit = null, $offset = 0){
-		$categories = $this->db->order_by('name','asc')->get($this->table, $limit, $offset)->result_array();
-		return $categories;
+		$assets = $this->db->order_by('name','asc')->get($this->table, $limit, $offset)->result_array();
+		return $assets;
 	}
 
-	function create($category){
-		$category['slug'] = url_title($category['name'],'-',true);
-		$this->db->insert($this->table, $category);
+	function create($asset){
+		$this->db->insert($this->table, $asset);
 	}
 
-	function update($category,$id){
-		$category['slug'] = url_title($category['name'],'-',true);
+	function update($asset,$id){
 		$this->db->where('id',$id);
-		$this->db->update($this->table,$category);
+		$this->db->update($this->table,$asset);
 	}
 
 	function delete($id){

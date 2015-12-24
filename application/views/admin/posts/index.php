@@ -2,29 +2,29 @@
 	<div class="col-md-12">
 		<div class="box">
             <div class="box-header">
-                <h3 class="box-title">Categories</h3>
+                <h3 class="box-title">Posts</h3>
             </div><!-- /.box-header -->
             <div class="box-body">
             	<?php echo $this->session->flashdata('message');?>
-            	<p><a class="btn btn-default" href="<?php echo site_url('admin/categories/add')?>">New Category</a></p>
+            	<p><a class="btn btn-default" href="<?php echo site_url('admin/posts/add')?>">New post</a></p>
                 <table class="table table-bordered">
                     <tr>
                         <th style="width: 10px">#</th>
-                        <th>Name</th>
+                        <th>Title</th>
                         <th>Slug</th>
                         <th>Status</th>
                         <th style="width: 100px">Action</th>
                     </tr>
-                    <?php if(!empty($categories)):?>
-                    	<?php foreach($categories as $category):?>
+                    <?php if(!empty($posts)):?>
+                    	<?php foreach($posts as $post):?>
 		                    <tr>
-		                        <td><?php echo $category['id']?></td>
-		                        <td><?php echo $category['name']?></td>
-		                        <td><?php echo $category['slug']?></td>
-		                        <td><?php echo $category_status[$category['status']]?></td>
+		                        <td><?php echo $post['id']?></td>
+		                        <td><?php echo $post['title']?></td>
+		                        <td><?php echo $post['slug']?></td>
+		                        <td><?php echo $post_status[$post['status']]?></td>
 		                        <td>
-		                        	<a href="<?php echo site_url('admin/categories/edit/'.$category['id'])?>"><span class="badge bg-green">edit</span></a>
-		                        	<a href="<?php echo site_url('admin/categories/delete/'.$category['id'])?>" onclick="return confirm('Are you sure?')"><span class="badge bg-red">delete</span></a>
+		                        	<a href="<?php echo site_url('admin/posts/edit/'.$post['id'])?>"><span class="badge bg-green">edit</span></a>
+		                        	<a href="<?php echo site_url('admin/posts/delete/'.$post['id'])?>" onclick="return confirm('Are you sure?')"><span class="badge bg-red">delete</span></a>
 		                        </td>
 		                    </tr>
                     	<?php endforeach;?>

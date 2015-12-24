@@ -16,7 +16,7 @@ class Users extends MY_Controller {
 		
 		$this->data['page_title'] = 'Sign In - CI Blog';
 		//validate form input
-		$this->form_validation->set_rules('identity', 'Identity', 'required');
+		$this->form_validation->set_rules('identity', 'Email', 'required');
 		$this->form_validation->set_rules('password', 'Password', 'required');
 
 		if ($this->form_validation->run() == true)

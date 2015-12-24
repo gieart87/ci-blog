@@ -6,19 +6,33 @@ define('THEMES_DIR', 'themes');
 class MY_Controller extends CI_Controller {
 
 	protected $data = array();
+	protected $assets_path = 'assets/uploads/';
 
 	function __construct(){
 		parent::__construct();
 		$this->load->library('ion_auth');
+		$this->load->library('pagination');
+		$this->load->library('general');
+
+		$this->load->model('Setting');
 		
 		$this->data['page_title'] = 'CI Blog';
 		$this->data['before_head'] = 'before head';
 		$this->data['before_body'] = 'before body';
 
+		$this->data['assets_path'] = $this->assets_path;
+
 		//Category status options
 		$this->data['category_status'] = array(
 			0 => 'Inactive',
 			1 => 'Active'
+		);
+
+		//Post status option
+		$this->data['post_status'] = array(
+			0 => 'Draft',
+			1 => 'Publish',
+			2 => 'Block'
 		);
 		
 	}

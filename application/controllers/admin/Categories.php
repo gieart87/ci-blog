@@ -5,8 +5,6 @@ class Categories extends Admin_Controller {
 
 	public function __construct(){
 		parent::__construct();
-
-		$this->load->library('pagination');
 		$this->load->model('Category');
 	}
 

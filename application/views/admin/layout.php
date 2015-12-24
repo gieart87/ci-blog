@@ -23,6 +23,25 @@
         <!-- Theme style -->
         <link href="<?php echo $base_assets_url;?>css/AdminLTE.css" rel="stylesheet" type="text/css" />
 
+        <!-- Line Control WYSIWYG -->
+        <link href="<?php echo $base_assets_url;?>plugins/line_control_editor/editor.css" type="text/css" rel="stylesheet"/>
+
+
+
+
+        <script type="text/javascript">
+            var SERVER = '<?php echo site_url("/")?>';
+            var BASE_URI = '<?php echo BASE_URI;?>';
+        </script>
+        <!-- jQuery 2.0.2 -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+        <!-- jQuery UI 1.10.3 -->
+        <script src="<?php echo $base_assets_url;?>js/jquery-ui-1.10.3.min.js" type="text/javascript"></script>
+        <!-- Bootstrap -->
+        <script src="<?php echo $base_assets_url;?>js/bootstrap.min.js" type="text/javascript"></script>
+
+        <script src="<?php echo $base_assets_url;?>js/custom.js" type="text/javascript"></script>   
+        
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -62,12 +81,7 @@
         <!-- add new calendar event modal -->
 
 
-        <!-- jQuery 2.0.2 -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-        <!-- jQuery UI 1.10.3 -->
-        <script src="<?php echo $base_assets_url;?>js/jquery-ui-1.10.3.min.js" type="text/javascript"></script>
-        <!-- Bootstrap -->
-        <script src="<?php echo $base_assets_url;?>js/bootstrap.min.js" type="text/javascript"></script>
+        
         <!-- Morris.js charts -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
         <script src="<?php echo $base_assets_url;?>js/plugins/morris/morris.min.js" type="text/javascript"></script>
@@ -91,7 +105,10 @@
         <script src="<?php echo $base_assets_url;?>js/AdminLTE/app.js" type="text/javascript"></script>
         
         <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-        <script src="<?php echo $base_assets_url;?>js/AdminLTE/dashboard.js" type="text/javascript"></script>        
+        <script src="<?php echo $base_assets_url;?>js/AdminLTE/dashboard.js" type="text/javascript"></script>   
+
+
+        
 
     </body>
 </html>

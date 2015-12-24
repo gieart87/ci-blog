@@ -209,6 +209,7 @@ $(function() {
 
     /* Morris.js Charts */
     // Sales chart
+    if($('.revenue-chart').length){
     var area = new Morris.Area({
         element: 'revenue-chart',
         resize: true,
@@ -230,7 +231,10 @@ $(function() {
         lineColors: ['#a0d0e0', '#3c8dbc'],
         hideHover: 'auto'
     });
+    }
+    
     //Donut Chart
+    if($('.sales-chart').length){
     var donut = new Morris.Donut({
         element: 'sales-chart',
         resize: true,
@@ -242,7 +246,10 @@ $(function() {
         ],
         hideHover: 'auto'
     });
+    }
+    
     //Bar chart
+    if($('.bar-chart').length){
     var bar = new Morris.Bar({
         element: 'bar-chart',
         resize: true,
@@ -261,6 +268,7 @@ $(function() {
         labels: ['CPU', 'DISK'],
         hideHover: 'auto'
     });
+    }
     //Fix for charts under tabs
     $('.box ul.nav a').on('shown.bs.tab', function(e) {
         area.redraw();

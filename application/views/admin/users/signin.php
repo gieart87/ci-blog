@@ -24,7 +24,7 @@
             <div class="header">Sign In</div>
             <?php echo form_open("users/signin");?>
                 <div class="body bg-gray">
-                    <?php echo $this->session->flashdata('message');?>
+                    <?php echo message_box(validation_errors(),'danger'); ?>
                     <div class="form-group">
                         <input type="text" name="identity" class="form-control" placeholder="Email"/>
                     </div>
