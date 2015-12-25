@@ -26,6 +26,9 @@
         <!-- Line Control WYSIWYG -->
         <link href="<?php echo $base_assets_url;?>plugins/line_control_editor/editor.css" type="text/css" rel="stylesheet"/>
 
+        <!-- Bootstrap Datepicker -->
+        <link href="<?php echo $base_assets_url;?>plugins/datepicker/css/datepicker.css" type="text/css" rel="stylesheet"/>
+
 
 
 
@@ -101,6 +104,9 @@
         <!-- iCheck -->
         <script src="<?php echo $base_assets_url;?>js/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
 
+        <!-- Bootstrap Datepicker -->
+        <script src="<?php echo $base_assets_url;?>plugins/datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
+
         <!-- AdminLTE App -->
         <script src="<?php echo $base_assets_url;?>js/AdminLTE/app.js" type="text/javascript"></script>
         
@@ -108,7 +114,11 @@
         <script src="<?php echo $base_assets_url;?>js/AdminLTE/dashboard.js" type="text/javascript"></script>   
 
 
-        
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('.datepicker').datepicker();
+            })
+        </script>
 
     </body>
 </html>

@@ -17,7 +17,7 @@ class Assets extends Admin_Controller {
 	      
 	        $limit = 8;
 			
-			$this->data['assets'] = $this->db->get('assets',$limit,$page-1)->result_array();
+			$this->data['assets'] = $this->db->order_by('created','desc')->get('assets',$limit,$page-1)->result_array();
 			$this->data['total_pages'] = ceil($this->db->get('assets')->num_rows() / $limit);
 			$this->data['current_page'] = $page;
 
@@ -34,7 +34,7 @@ class Assets extends Admin_Controller {
 	      
 	        $limit = 8;
 			
-			$this->data['assets'] = $this->db->get('assets',$limit,$page-1)->result_array();
+			$this->data['assets'] = $this->db->order_by('created','desc')->get('assets',$limit,$page-1)->result_array();
 			$this->data['total_pages'] = ceil($this->db->get('assets')->num_rows() / $limit);
 			$this->data['current_page'] = $page;
 

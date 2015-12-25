@@ -29,14 +29,14 @@ class Users extends MY_Controller {
 			{
 				//if the login is successful
 				//redirect them back to the home page
-				$this->session->set_flashdata('message', $this->ion_auth->messages());
+				$this->session->set_flashdata('message', message_box($this->ion_auth->messages(),'success'));
 				redirect('admin', 'refresh');
 			}
 			else
 			{
 				//if the login was un-successful
 				//redirect them back to the login page
-				$this->session->set_flashdata('message', $this->ion_auth->errors());
+				$this->session->set_flashdata('message', message_box($this->ion_auth->errors(),'danger'));
 				redirect('signin', 'refresh'); //use redirects instead of loading views for compatibility with MY_Controller libraries
 			}
 		}
@@ -46,7 +46,7 @@ class Users extends MY_Controller {
 
 	public function signout(){
 		$this->ion_auth->logout();
-		$this->session->set_flashdata('message','You have signed out successfully');
+		$this->session->set_flashdata('message',message_box('You have signed out successfully','success'));
 		redirect('signin', 'refresh');
 	}
 
@@ -346,6 +346,7 @@ class Users extends MY_Controller {
 		//validate form input
 		$this->form_validation->set_rules('first_name', $this->lang->line('create_user_validation_fname_label'), 'required');
 		$this->form_validation->set_rules('last_name', $this->lang->line('create_user_validation_lname_label'), 'required');
+		$this->form_validation->set_rules('username', $this->lang->line('create_user_username_label'), 'trim|required|min_length[4]|xss_clean|alpha_numeric|is_unique[users.username]');
 		$this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'required|valid_email|is_unique['.$tables['users'].'.email]');
 		// $this->form_validation->set_rules('phone', $this->lang->line('create_user_validation_phone_label'), 'required|xss_clean');
 		// $this->form_validation->set_rules('company', $this->lang->line('create_user_validation_company_label'), 'required|xss_clean');
@@ -354,7 +355,8 @@ class Users extends MY_Controller {
 		$this->form_validation->set_error_delimiters('','<br/>');
 		if ($this->form_validation->run() == true)
 		{
-			$username = strtolower($this->input->post('first_name')) . ' ' . strtolower($this->input->post('last_name'));
+			// $username = strtolower($this->input->post('first_name')) . ' ' . strtolower($this->input->post('last_name'));
+			$username = strtolower($this->input->post('username'));
 			$email    = strtolower($this->input->post('email'));
 			$password = $this->input->post('password');
 
@@ -369,14 +371,15 @@ class Users extends MY_Controller {
 		{
 			//check to see if we are creating the user
 			//redirect them back to the admin page
-			$this->session->set_flashdata('message', $this->ion_auth->messages());
+			// $this->session->set_flashdata('message', $this->ion_auth->messages());
+			$this->session->set_flashdata('message',message_box('Signed up successfully, activation email sent','success'));
 			redirect("signin", 'refresh');
 		}
 		else
 		{
 			//display the create user form
 			//set the flash data error message if there is one
-			$this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+			$this->data['message'] = message_box((validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message'))),'danger');
 
 			$this->data['first_name'] = array(
 				'name'  => 'first_name',
@@ -390,6 +393,13 @@ class Users extends MY_Controller {
 				'type'  => 'text',
 				'value' => $this->form_validation->set_value('last_name'),
 			);
+			$this->data['username'] = array(
+				'name'  => 'username',
+				'id'    => 'username',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('username'),
+			);
+
 			$this->data['email'] = array(
 				'name'  => 'email',
 				'id'    => 'email',
@@ -424,6 +434,8 @@ class Users extends MY_Controller {
 			$this->render(null,'admin/users/signup');
 		}
 	}
+
+
 
 	function _get_csrf_nonce()
 	{

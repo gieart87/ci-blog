@@ -7,12 +7,16 @@ class MY_Controller extends CI_Controller {
 
 	protected $data = array();
 	protected $assets_path = 'assets/uploads/';
+	protected $current_user = array();
+	protected $current_groups = array();
+	protected $current_groups_ids = array();
 
 	function __construct(){
 		parent::__construct();
 		$this->load->library('ion_auth');
 		$this->load->library('pagination');
 		$this->load->library('general');
+		$this->load->model('User');
 
 		$this->load->model('Setting');
 		
@@ -35,6 +39,22 @@ class MY_Controller extends CI_Controller {
 			2 => 'Block'
 		);
 
+		//User status option
+		$this->data['user_status'] = array(
+			0 => 'Pending',
+			1 => 'Active',
+			2 => 'Inactive'
+		);
+
+		if($this->session->userdata('user_id')){
+			$this->current_user = $this->User->find_by_id($this->session->userdata('user_id'));
+			$this->current_groups = $this->current_groups();
+			$this->current_groups_ids =  explode(',', $this->current_user['group_ids']);
+		}
+
+		$this->data['current_user'] = $this->current_user;
+		$this->data['current_groups'] = $this->current_groups;
+		$this->data['current_groups_ids'] = $this->current_groups_ids;
 	}
 
 	protected function render($content = null, $layout = 'public'){
@@ -85,20 +105,13 @@ class MY_Controller extends CI_Controller {
 		$allow_access = !empty($match_group_allowed);
 
 		if($allow_access == false){
-			$this->session->set_flashdata('message', message_box('Sorry, you are not allowed to access this page!','danger'));
+			$this->session->set_flashdata('message', message_box('You are not allowed to access this page!','danger'));
 			redirect('signin','refresh');
 		}
 	}
 
 	protected function current_groups(){
-		$current_groups = array();
-		$groups = $this->ion_auth->get_users_groups($this->session->userdata('user_id'))->result_array();
-		if(!empty($groups)){
-			foreach($groups as $group){
-				$current_groups[] = $group['name'];
-			}
-		}
-		return $current_groups;
+		return explode(',', $this->current_user['groups']);
 	}
 
 	protected function generate_acl_db(){
@@ -153,11 +166,11 @@ class Admin_Controller extends MY_Controller{
 		$this->data['base_assets_url'] = BASE_URI.$this->base_assets_url;
 		$this->data['page_title'] = 'CI Blog - Dashboard';
 		$this->data['header'] = $this->load->view('admin/parts/header',$this->data,TRUE);
-		$this->data['sidebar'] = $this->load->view('admin/parts/sidebar',$this->data,TRUE);
-		
+		$this->data['parent_menu'] = '';
 	}
 
 	protected function render($content = null, $layout = 'admin/layout'){
+		$this->data['sidebar'] = $this->load->view('admin/parts/sidebar',$this->data,TRUE);
 		parent::render($content, $layout);
 	}
 }

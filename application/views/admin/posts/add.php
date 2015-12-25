@@ -26,6 +26,10 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="post_name">Publish Date</label>
+                        <input type="text" name="published_at" class="form-control datepicker" data-date-format="yyyy-mm-dd" id="publish_date" placeholder="Publish Date" value="<?php echo set_value('published_at');?>">
+                    </div>
+                    <div class="form-group">
                         <label for="post_status">Status</label>
                         <?php
                             echo form_dropdown('status',$post_status,set_value('status'),array('class' => 'form-control'));
@@ -37,6 +41,7 @@
                             echo form_dropdown('category[]',$categories,null,array('class' => 'form-control','multiple' => true));
                         ?>
                     </div>
+                    
                 </div><!-- /.box-body -->
 
                 <div class="box-footer">

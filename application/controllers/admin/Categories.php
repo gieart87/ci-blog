@@ -7,6 +7,7 @@ class Categories extends Admin_Controller {
 		parent::__construct();
 		$this->load->model('Category');
 		$this->allow_group_access(array('admin'));
+		$this->data['parent_menu'] = 'post';
 	}
 
 	public function index(){

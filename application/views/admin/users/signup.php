@@ -34,6 +34,10 @@
                         <?php echo form_input($last_name,null,array('class' => 'form-control'));?>
                     </div>
                     <div class="form-group">
+                        <label><?php echo lang('create_user_username_label', 'username');?> </label>
+                        <?php echo form_input($username,null,array('class' => 'form-control'));?>
+                    </div>
+                    <div class="form-group">
                         <label><?php echo lang('create_user_email_label', 'email');?> </label>
                         <?php echo form_input($email,null,array('class' => 'form-control'));?>
                     </div>

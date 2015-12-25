@@ -8,7 +8,8 @@ class Dashboard extends Admin_Controller {
 	}
 
 	public function index(){
-		$this->data['welcome'] = 'Ini adalah halaman admin';
-		$this->render('admin/dashboard/index');
+		redirect('admin/posts');
+		// $this->data['welcome'] = 'Ini adalah halaman admin';
+		// $this->render('admin/dashboard/index');
 	}
 }

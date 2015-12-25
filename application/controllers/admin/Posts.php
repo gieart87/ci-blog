@@ -9,6 +9,7 @@ class Posts extends Admin_Controller {
 		$this->load->model('Category');
 
         $this->allow_group_access(array('admin','members'));
+        $this->data['parent_menu'] = 'post';
     
 	}
 
@@ -18,18 +19,26 @@ class Posts extends Admin_Controller {
 		$config['per_page'] = 10;
 		$config["uri_segment"] = 4;
 
+        $user_id = null;
+
+        if(!in_array('admin', $this->current_groups)){
+            $user_id = $this->session->userdata('user_id');
+        }
+
+
         if ($this->input->get('q')):
             $q = $this->input->get('q');
-            $this->data['posts'] = $this->Post->find($config['per_page'], $this->uri->segment(4), $q);
+            $this->data['posts'] = $this->Post->find($config['per_page'], $this->uri->segment(4),$user_id, $q);
             if (empty($this->data['posts'])) {
                 $this->session->set_flashdata('message', message_box('Data tidak ditemukan','danger'));
                 redirect('admin/posts/index');
             }
             $config['total_rows'] = count($this->data['posts']);
         else:
-            $this->data['posts'] = $this->Post->find($config['per_page'], $this->uri->segment(4));
+            $this->data['posts'] = $this->Post->find($config['per_page'], $this->uri->segment(4),$user_id);
         endif;
         $this->data['pagination'] = $this->bootstrap_pagination($config);
+        
 		$this->render('admin/posts/index');
 	}
 
@@ -38,7 +47,7 @@ class Posts extends Admin_Controller {
 		$this->form_validation->set_rules('title', 'title', 'required|is_unique[posts.title]');
         $this->form_validation->set_rules('body', 'body', 'required');
         $this->form_validation->set_rules('status', 'status', 'required');
-        $this->form_validation->set_rules('published_at', 'tanggal', 'xss_clean');
+        $this->form_validation->set_rules('published_at', 'tanggal', '');
         $this->form_validation->set_error_delimiters('', '<br/>');
         if ($this->form_validation->run() == TRUE) {
         	
@@ -78,15 +87,14 @@ class Posts extends Admin_Controller {
         $this->form_validation->set_rules('title', 'title', 'required');
         $this->form_validation->set_rules('body', 'body', 'required');
         $this->form_validation->set_rules('status', 'status', 'required');
-        $this->form_validation->set_rules('published_at', 'tanggal', 'xss_clean');
+        $this->form_validation->set_rules('published_at', 'tanggal', '');
         $this->form_validation->set_error_delimiters('', '<br/>');
         if ($this->form_validation->run() == TRUE) {
          
             $data = $_POST;
             unset($data['category']);
-            $data['type'] = 'post';
             $data['modified'] = date("Y-m-d H:i:s");
-            $data['user_id'] = $this->session->userdata('user_id');
+            // $data['user_id'] = $this->session->userdata('user_id');
 
             $this->Post->update($data,$id);
       

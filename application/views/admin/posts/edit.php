@@ -31,6 +31,10 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="post_name">Publish Date</label>
+                        <input type="text" name="published_at" class="form-control datepicker"  data-date-format="yyyy-mm-dd" id="post_name" placeholder="Publish Date" value="<?php echo set_value('published_at', isset($post['published_at']) ? $post['published_at'] : '') ?>">
+                    </div>
+                    <div class="form-group">
                         <label for="post_status">Status</label>
                         <?php
                             echo form_dropdown('status',$post_status, set_value('status', isset($post['status']) ? $post['status'] : ''),array('class' => 'form-control'));
@@ -42,6 +46,7 @@
                             echo form_dropdown('category[]',$categories,$category_ids,array('class' => 'form-control','multiple' => true));
                         ?>
                     </div>
+                    
                 </div><!-- /.box-body -->
 
                 <div class="box-footer">
