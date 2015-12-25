@@ -6,6 +6,7 @@ class Categories extends Admin_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('Category');
+		$this->allow_group_access(array('admin'));
 	}
 
 	public function index(){

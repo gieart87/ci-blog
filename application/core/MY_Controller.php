@@ -34,7 +34,7 @@ class MY_Controller extends CI_Controller {
 			1 => 'Publish',
 			2 => 'Block'
 		);
-		
+
 	}
 
 	protected function render($content = null, $layout = 'public'){
@@ -75,6 +75,68 @@ class MY_Controller extends CI_Controller {
 
 		$this->pagination->initialize($config);
 		return $this->pagination->create_links(); 
+	}
+
+	protected function allow_group_access($groups_allowed = array()){
+		$allow_access = false;
+		
+		$match_group_allowed = array_intersect($this->current_groups(), $groups_allowed);
+		
+		$allow_access = !empty($match_group_allowed);
+
+		if($allow_access == false){
+			$this->session->set_flashdata('message', message_box('Sorry, you are not allowed to access this page!','danger'));
+			redirect('signin','refresh');
+		}
+	}
+
+	protected function current_groups(){
+		$current_groups = array();
+		$groups = $this->ion_auth->get_users_groups($this->session->userdata('user_id'))->result_array();
+		if(!empty($groups)){
+			foreach($groups as $group){
+				$current_groups[] = $group['name'];
+			}
+		}
+		return $current_groups;
+	}
+
+	protected function generate_acl_db(){
+
+
+		$controllers = array();
+	    $this->load->helper('file');
+
+	    // Scan files in the /application/controllers directory
+	    // Set the second param to TRUE or remove it if you 
+	    // don't have controllers in sub directories
+	    $files = get_dir_file_info(APPPATH.'controllers');
+	  
+	    // Loop through file names removing .php extension
+	    foreach ($files as $file)
+	    {
+	        
+	        $controller = array(
+	        	'name' => $file['name'],
+	        	'path' => $file['server_path'],
+	        	'parent_id' => 0,
+	        );
+
+	        if($file['name'] != 'admin'){
+
+	        	$methods = get_class_methods(str_replace('.php', '', $file['name']));
+	        
+	    	}
+
+
+
+	        if($file['name'] == 'admin'){
+	        	$admin_files = get_dir_file_info(APPPATH.'controllers/admin');
+	        	print_data($admin_files);exit;
+	        }
+	    }
+	  
+
 	}
 
 

@@ -7,6 +7,9 @@ class Posts extends Admin_Controller {
 		parent::__construct();
 		$this->load->model('Post');
 		$this->load->model('Category');
+
+        $this->allow_group_access(array('admin','members'));
+    
 	}
 
 	public function index(){
@@ -31,6 +34,7 @@ class Posts extends Admin_Controller {
 	}
 
 	public function add(){
+
 		$this->form_validation->set_rules('title', 'title', 'required|is_unique[posts.title]');
         $this->form_validation->set_rules('body', 'body', 'required');
         $this->form_validation->set_rules('status', 'status', 'required');
