@@ -3,7 +3,7 @@
          <!-- general form elements -->
         <div class="box box-primary">
             <div class="box-header">
-                <h3 class="box-title">New Post</h3>
+                <h3 class="box-title">Edit Post</h3>
             </div><!-- /.box-header -->
             <!-- form start -->
             <form role="form" action="<?php echo site_url('admin/posts/edit')?>" method="post">
@@ -43,7 +43,13 @@
                     <div class="form-group">
                         <label for="post_status">Categories</label>
                         <?php
-                            echo form_dropdown('category[]',$categories,$category_ids,array('class' => 'select2','multiple' => true));
+                            echo form_dropdown('category[]',$categories,$category_ids,array('class' => 'select2 form-control','multiple' => true));
+                        ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="post_status">Tags</label>
+                        <?php
+                            echo form_dropdown('tag[]',$tags,$tag_ids,array('class' => 'select2-tags form-control','multiple' => true));
                         ?>
                     </div>
                     

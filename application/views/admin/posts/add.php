@@ -38,7 +38,14 @@
                     <div class="form-group">
                         <label for="post_status">Categories</label>
                         <?php
-                            echo form_dropdown('category[]',$categories,null,array('class' => 'select2','multiple' => true));
+                            echo form_dropdown('category[]',$categories,null,array('class' => 'select2 form-control','multiple' => true));
+                        ?>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="post_status">Tags</label>
+                        <?php
+                            echo form_dropdown('tag[]',$tags,null,array('class' => 'select2-tags form-control','multiple' => true));
                         ?>
                     </div>
                     

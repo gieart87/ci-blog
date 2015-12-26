@@ -6,7 +6,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="javascript:void(0)"><h1 class="logo">DBlog</h1></a>
+              <a class="navbar-brand" href="<?php echo site_url('/')?>"><h1 class="logo">CI - Blog</h1></a>
             </div>
             <div class="navbar-collapse collapse navbar-responsive-collapse">
 

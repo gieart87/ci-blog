@@ -226,6 +226,42 @@ class General {
         return $years;
     }
 
+
+    function multilevel_select($array,$parent_id = 0,$parents = array(),$selected = null) {
+        
+        static $i=0;
+        if($parent_id==0)
+        {
+            foreach ($array as $element) {
+                if (($element['parent_id'] != 0) && !in_array($element['parent_id'],$parents)) {
+                    $parents[] = $element['parent_id'];
+                }
+            }
+        }
+
+        $menu_html = '';
+        foreach($array as $element){
+            $selected_item = '';
+            if($element['parent_id']==$parent_id){
+                if($element['id'] == $selected){
+                    $selected_item = 'selected';
+                }
+
+                $menu_html .= '<option value="'.$element['id'].'" '.$selected_item.'>';
+                for($j=0; $j<$i; $j++) {
+                    $menu_html .= '&mdash;';
+                }
+                $menu_html .= $element['name'].'</option>';
+                if(in_array($element['id'], $parents)){
+                    $i++;
+                    $menu_html .= $this->multilevel_select($array, $element['id'], $parents, $selected);
+                }
+            }
+        }
+        $i--;
+        return $menu_html;
+    }
+
    
 }
 

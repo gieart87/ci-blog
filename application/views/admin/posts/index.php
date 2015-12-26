@@ -13,6 +13,7 @@
                         <th>Title</th>
                         <th>Slug</th>
                         <th>Published</th>
+                        <th>Author</th>
                         <th>Status</th>
                         <th style="width: 100px">Action</th>
                     </tr>
@@ -23,6 +24,7 @@
 		                        <td><?php echo $post['title']?></td>
 		                        <td><?php echo $post['slug']?></td>
                                 <td><?php echo $post['published_at']?></td>
+                                <td><?php echo $post['username']?></td>
 		                        <td><?php echo $post_status[$post['status']]?></td>
 		                        <td>
 		                        	<a href="<?php echo site_url('admin/posts/edit/'.$post['id'])?>"><span class="badge bg-green">edit</span></a>

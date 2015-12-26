@@ -7,6 +7,7 @@ class Posts extends Admin_Controller {
 		parent::__construct();
 		$this->load->model('Post');
 		$this->load->model('Category');
+        $this->load->model('Tag');
 
         $this->allow_group_access(array('admin','members'));
         $this->data['parent_menu'] = 'post';
@@ -47,12 +48,14 @@ class Posts extends Admin_Controller {
 		$this->form_validation->set_rules('title', 'title', 'required|is_unique[posts.title]');
         $this->form_validation->set_rules('body', 'body', 'required');
         $this->form_validation->set_rules('status', 'status', 'required');
-        $this->form_validation->set_rules('published_at', 'tanggal', '');
+        $this->form_validation->set_rules('published_at', 'date', '');
         $this->form_validation->set_error_delimiters('', '<br/>');
         if ($this->form_validation->run() == TRUE) {
         	
             $data = $_POST;
+            // print_data($data);exit;
             unset($data['category']);
+            unset($data['tag']);
             $data['type'] = 'post';
             $data['created'] = date("Y-m-d H:i:s");
             $data['modified'] = date("Y-m-d H:i:s");
@@ -71,10 +74,39 @@ class Posts extends Admin_Controller {
                     $this->db->insert('posts_categories',$post_category);
                 }
             }
+
+            if(!empty($_POST['tag'])){
+                foreach($_POST['tag'] as $key => $tag){
+                    $existTag = $this->Tag->find_by_id($tag);
+                    if(!empty($existTag)){
+                        $post_tag = array(
+                            'post_id' => $post_id,
+                            'tag_id' => $tag
+                        );
+                        $this->db->insert('posts_tags',$post_tag);
+                    }else{
+
+                        $newTag = array(
+                            'name' => $tag,
+                            'slug' => url_title($tag,'-',true),
+                            'status' => 1
+                        );
+
+                        $this->db->insert('tags',$newTag);
+                        $tag_id = $this->db->insert_id();
+                        $post_tag = array(
+                            'post_id' => $post_id,
+                            'tag_id' => $tag_id
+                        );
+                        $this->db->insert('posts_tags',$post_tag);
+                    }
+                }
+            }
             $this->session->set_flashdata('message', message_box('New post has been saved','success'));
             redirect('admin/posts');
         }
         $this->data['categories'] = $this->Category->find_list();
+        $this->data['tags'] = $this->Tag->find_list();
        	$this->render('admin/posts/add');
 	}
 
@@ -87,12 +119,14 @@ class Posts extends Admin_Controller {
         $this->form_validation->set_rules('title', 'title', 'required');
         $this->form_validation->set_rules('body', 'body', 'required');
         $this->form_validation->set_rules('status', 'status', 'required');
-        $this->form_validation->set_rules('published_at', 'tanggal', '');
+        $this->form_validation->set_rules('published_at', 'date', '');
         $this->form_validation->set_error_delimiters('', '<br/>');
         if ($this->form_validation->run() == TRUE) {
          
             $data = $_POST;
             unset($data['category']);
+            unset($data['tag']);
+
             $data['modified'] = date("Y-m-d H:i:s");
             // $data['user_id'] = $this->session->userdata('user_id');
 
@@ -116,13 +150,48 @@ class Posts extends Admin_Controller {
                     }
                 }
             }
+
+            if(!empty($_POST['tag'])){
+                $this->db->where('post_id',$post_id);
+                $this->db->where_not_in('tag_id',$_POST['tag']);
+                $this->db->delete('posts_tags');
+
+                foreach($_POST['tag'] as $key => $tag){
+                    $existTag = $this->Tag->find_by_id($tag);
+                    if(!empty($existTag)){
+                        if($this->db->where(array('post_id' => $post_id, 'tag_id' => $tag))->get('posts_tags',1)->num_rows() < 1){
+                            $post_tag = array(
+                                'post_id' => $post_id,
+                                'tag_id' => $tag
+                            );
+                            $this->db->insert('posts_tags',$post_tag);
+                        }
+                    }else{
+
+                        $newTag = array(
+                            'name' => $tag,
+                            'slug' => url_title($tag,'-',true),
+                            'status' => 1
+                        );
+
+                        $this->db->insert('tags',$newTag);
+                        $tag_id = $this->db->insert_id();
+                        $post_tag = array(
+                            'post_id' => $post_id,
+                            'tag_id' => $tag_id
+                        );
+                        $this->db->insert('posts_tags',$post_tag);
+                    }
+                }
+            }
             $this->session->set_flashdata('message', message_box('Post has been saved','success'));
             redirect('admin/posts');
         }
         $this->data['post'] = $this->Post->find_by_id($id);
         $this->data['categories'] = $this->Category->find_list();
+        $this->data['tags'] = $this->Tag->find_list();
         $current_category = $this->db->select('category_id')->where(array('post_id' => $this->data['post']['id']))->get('posts_categories')->result_array();
-       
+        $current_tag = $this->db->select('tag_id')->where(array('post_id' => $this->data['post']['id']))->get('posts_tags')->result_array();
         $category_ids = array();
         if(!empty($current_category)){
             foreach($current_category as $current){
@@ -130,8 +199,15 @@ class Posts extends Admin_Controller {
             }
         }
 
-        $this->data['category_ids'] = $category_ids;
+        $tag_ids = array();
+        if(!empty($current_tag)){
+            foreach($current_tag as $cur_tag){
+                $tag_ids[] = $cur_tag['tag_id'];
+            }
+        }
 
+        $this->data['category_ids'] = $category_ids;
+        $this->data['tag_ids'] = $tag_ids;
 
         $this->render('admin/posts/edit');
 	}

@@ -43,6 +43,16 @@
                             </ul>
                         </li>
                         <?php if(in_array('admin',$current_groups)):?>
+                            <li class="active">
+                                <a href="<?php echo site_url('admin/pages')?>">
+                                    <i class="fa fa-file"></i> <span>Static Page</span>
+                                </a>
+                            </li>
+                            <li class="active">
+                                <a href="<?php echo site_url('admin/menus')?>">
+                                    <i class="fa fa-tasks"></i> <span>Menus</span>
+                                </a>
+                            </li>
                             <li class="treeview <?php echo ($parent_menu == 'user')? 'active' : '' ?>">
                                 <a href="#">
                                     <i class="fa fa-users"></i> <span>Users</span>

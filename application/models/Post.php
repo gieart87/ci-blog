@@ -19,6 +19,7 @@ class Post extends CI_Model{
         if($user_id != null){
         	$this->db->where('user_id',$user_id);
         }
+        $this->db->where('type','post');
         $this->db->limit($limit, $offset);
         $this->db->order_by('published_at', 'desc');
         $query = $this->db->get($this->table);
@@ -47,6 +48,25 @@ class Post extends CI_Model{
 	function find_by_id($id){
 		$this->db->where('id',$id);
 		return $this->db->get($this->table,1)->row_array();
+	}
+
+	function find_by_slug($slug){
+		$this->db->select('posts.*,users.username');
+        $this->db->join('users', 'users.id = posts.user_id');
+		$this->db->where('slug',$slug);
+		return $this->db->get($this->table,1)->row_array();
+	}
+
+	function all_urls(){
+		$posts = $this->db->select('id,title,slug')->where(array('status' => 1))->order_by('id','desc')->get($this->table)->result_array();
+		$all_urls = array();
+		if(!empty($posts)){
+			foreach($posts as $post){
+				$all_urls['read/'.$post['slug']] = $post['title'];
+			}
+		}
+		
+		return $all_urls;
 	}
 
 }

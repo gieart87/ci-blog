@@ -1,3 +1,19 @@
-.select2-container{
-	display: block !important;
+.select2-container--default .select2-selection--multiple{
+	border-radius: 0;
+	border: 1px solid #aaa;
+	font-size: 14px;
+	line-height: 14px;
+}
+
+.select2-container--default .select2-selection--multiple ul{
+	margin-bottom: 0;
+}
+
+.datepicker{
+	padding: 6px 10px 10px !important;
+	margin-top: 0;
+}
+
+.datepicker.form-control{
+	height: 34px !important;
 }
