@@ -85,47 +85,6 @@ class General {
         return $categories;
     }
 
-    function __createMenu($data, $parent = 0) {
-
-        static $i = 1;
-        $tab = str_repeat("\t\t", $i);
-        if (isset($data[$parent])) {
-//            $html = "\n$tab<ul>";
-            $html = "\n" . $tab . '<ul id="jsddm" class="menu clearfix tabs">';
-//            $html .= "\n" . '<li><a href="' . base_url() . '">HOME</a></li>';
-            $i++;
-            foreach ($data[$parent] as $v) {
-                $child = $this->__createMenu($data, $v['id']);
-                $html .= "\n\t$tab<li>";
-                $html .= '<a href="' . base_url() . $v['url'] . '">' . strtoupper($v['name']) . '</a>';
-                if ($child) {
-                    $i--;
-                    $html .= $child;
-                    $html .= "\n\t$tab";
-                }
-                $html .= '</li>';
-            }
-            $html .= "\n$tab</ul>";
-
-            return $html;
-        } else {
-            return false;
-        }
-    }
-
-    function getMultiLevelMenu() {
-        $this->CI->load->model('Menu');
-        $menu = $this->CI->Menu->findActive();
-
-        $data = array();
-        foreach ($menu as $m) {
-            $data[$m['parent_id']][] = $m;
-        }
-
-
-        return $this->__createMenu($data);
-    }
-
     
 
     function isExistFile($filename) {
@@ -262,6 +221,42 @@ class General {
         return $menu_html;
     }
 
+
+    function bootstrap_menu($array,$parent_id = 0,$parents = array())
+    {
+        if($parent_id==0)
+        {
+            foreach ($array as $element) {
+                if (($element['parent_id'] != 0) && !in_array($element['parent_id'],$parents)) {
+                    $parents[] = $element['parent_id'];
+                }
+            }
+        }
+        $menu_html = '';
+        foreach($array as $element)
+        {
+            if($element['parent_id']==$parent_id)
+            {
+                if(in_array($element['id'],$parents))
+                {
+                    $menu_html .= '<li class="dropdown">';
+                    $menu_html .= '<a href="'.site_url($element['url']).'" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">'.$element['name'].' <span class="caret"></span></a>';
+                }
+                else {
+                    $menu_html .= '<li>';
+                    $menu_html .= '<a href="' . site_url($element['url']) . '">' . $element['name'] . '</a>';
+                }
+                if(in_array($element['id'],$parents))
+                {
+                    $menu_html .= '<ul class="dropdown-menu" role="menu">';
+                    $menu_html .= $this->bootstrap_menu($array, $element['id'], $parents);
+                    $menu_html .= '</ul>';
+                }
+                $menu_html .= '</li>';
+            }
+        }
+        return $menu_html;
+    }
    
 }
 

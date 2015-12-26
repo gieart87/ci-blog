@@ -20,10 +20,12 @@ class Welcome extends Public_Controller {
 	*/
 	public function __construct(){
 		parent::__construct();
+		$this->load->model('Post');
 	}
 	public function index()
 	{
 		$this->data['home_page'] = 1;
+		$this->data['posts'] = $this->Post->find(3);
 		$this->render('welcome');
 	}
 }

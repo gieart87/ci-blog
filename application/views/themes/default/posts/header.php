@@ -11,11 +11,7 @@
             <div class="navbar-collapse collapse navbar-responsive-collapse">
 
               <ul class="nav navbar-nav navbar-right">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="<?php echo site_url('signin')?>">Sign In</a></li>
+                <?php echo $main_menus;?>
               </ul>
             </div>
           </div>
