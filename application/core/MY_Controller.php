@@ -111,7 +111,11 @@ class MY_Controller extends CI_Controller {
 	}
 
 	protected function current_groups(){
-		return explode(',', $this->current_user['groups']);
+		$current_groups = array();
+		if(!empty($this->current_user['groups'])){
+			$current_groups = explode(',', $this->current_user['groups']);
+		}
+		return $current_groups;
 	}
 
 	protected function generate_acl_db(){

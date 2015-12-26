@@ -23,13 +23,18 @@
         <!-- Theme style -->
         <link href="<?php echo $base_assets_url;?>css/AdminLTE.css" rel="stylesheet" type="text/css" />
 
+
         <!-- Line Control WYSIWYG -->
         <link href="<?php echo $base_assets_url;?>plugins/line_control_editor/editor.css" type="text/css" rel="stylesheet"/>
 
         <!-- Bootstrap Datepicker -->
         <link href="<?php echo $base_assets_url;?>plugins/datepicker/css/datepicker.css" type="text/css" rel="stylesheet"/>
 
+        <!-- Select2 -->
+        <link href="<?php echo $base_assets_url;?>plugins/select2/select2.css" rel="stylesheet" type="text/css" />
+        
 
+        <link href="<?php echo $base_assets_url;?>css/custom.css" rel="stylesheet" type="text/css" />
 
 
         <script type="text/javascript">
@@ -113,10 +118,13 @@
         <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
         <script src="<?php echo $base_assets_url;?>js/AdminLTE/dashboard.js" type="text/javascript"></script>   
 
+        <!-- Select2 -->
+        <script src="<?php echo $base_assets_url;?>plugins/select2/select2.min.js"></script>
 
         <script type="text/javascript">
             $(document).ready(function(){
                 $('.datepicker').datepicker();
+                $('.select2').select2();
             })
         </script>
 
