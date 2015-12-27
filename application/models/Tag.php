@@ -11,6 +11,18 @@ class Tag extends CI_Model{
 		return $tags;
 	}
 
+	function find_active(){
+		$this->db->select('c.*');
+		$this->db->join('tags c','pc.tag_id=c.id');
+		$this->db->join('posts p','pc.post_id=p.id');
+		$this->db->where('c.status',1);
+		$this->db->where('p.status',1);
+		$this->db->group_by('pc.tag_id');
+		$this->db->order_by('c.name','asc');
+		$tags = $this->db->get('posts_tags pc')->result_array();
+		return $tags;
+	}
+
 	function create($tag){
 		$tag['slug'] = url_title($tag['name'],'-',true);
 		$this->db->insert($this->table, $tag);
@@ -29,6 +41,11 @@ class Tag extends CI_Model{
 
 	function find_by_id($id){
 		$this->db->where('id',$id);
+		return $this->db->get($this->table,1)->row_array();
+	}
+
+	function find_by_slug($id){
+		$this->db->where('slug',$id);
 		return $this->db->get($this->table,1)->row_array();
 	}
 

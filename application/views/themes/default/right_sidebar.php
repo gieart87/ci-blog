@@ -4,38 +4,21 @@
                   <h3>Recent Posts</h3>
                 </div>
                 <div class="list-group">
-                  <div class="list-group-item">
-                    <div class="row-picture">
-                        <img class="circle" src="<?php echo $base_assets_url;?>main/img/general/1.jpg" alt="icon">
-                    </div>
-                    <div class="row-content">
-                        <div class="least-content">23 May 2015</div>
-                        <h4 class="list-group-item-heading"><a hre="single.html">Tile with image</a></h4>
-                        <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus</p>
-                    </div>
-                  </div>
-                  <div class="list-group-separator"></div>
-                  <div class="list-group-item">
-                    <div class="row-picture">
-                        <img class="circle" src="<?php echo $base_assets_url;?>main/img/general/1.jpg" alt="icon">
-                    </div>
-                    <div class="row-content">
-                        <div class="least-content">3 June 2015</div>
-                        <h4 class="list-group-item-heading"><a hre="single.html">Tile with image</a></h4>
-                        <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus</p>
-                    </div>
-                  </div>
-                  <div class="list-group-separator"></div>
-                  <div class="list-group-item">
-                    <div class="row-picture">
-                        <img class="circle" src="<?php echo $base_assets_url;?>main/img/general/1.jpg" alt="icon">
-                    </div>
-                    <div class="row-content">
-                        <div class="least-content">3 June 2015</div>
-                        <h4 class="list-group-item-heading"><a hre="single.html">Tile with image</a></h4>
-                        <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus</p>
-                    </div>
-                  </div>
+                  <?php if(!empty($this->general->getRecentPosts())):?>
+                    <?php foreach ($this->general->getRecentPosts() as $post):?>
+                      <div class="list-group-item">
+                        <?php if(!empty($post['featured_image'])):?>
+                        <div class="row-picture">
+                            <img class="circle" src="<?php echo BASE_URI.$post['featured_image']?>" alt="icon">
+                        </div>
+                        <?php endif;?>
+                        <div class="row-content">
+                            <h4><a href="<?php echo site_url('read/'.$post['slug']) ?>"><?php echo $post['title'] ?></a></h4>
+                        </div>
+                      </div>
+                      <div class="list-group-separator"></div>
+                    <?php endforeach;?>
+                  <?php endif;?>
                 </div>
               </div>
               <div class="widget">
@@ -44,14 +27,15 @@
                 </div>
                 <div class="widget-content list-menus">
                   <ul>
-                    <li><a href="blog.html">UX/UI Design</a></li>
-                    <li><a href="blog.html">Web Development</a></li>
-                    <li><a href="blog.html">CSS Tips &amp; Tricks</a></li> 
-                    <li><a href="blog.html">Mobile Development</a></li>
+                    <?php if(!empty($this->general->getCategories())):?>
+                        <?php foreach($this->general->getCategories() as $category):?>
+                          <li><a href="<?php echo site_url('category/'.$category['slug'])?>"><?php echo $category['name']?></a></li>
+                        <?php endforeach;?>
+                      <?php endif;?>
                   </ul>
                 </div>
               </div>
-              <div class="widget">
+              <!-- <div class="widget">
                 <div class="widget-title">
                   <h3>Archives</h3>
                 </div>
@@ -63,20 +47,16 @@
                     <li><a href="#">June, 2015</a></li>
                   </ul>
                 </div>
-              </div>
+              </div> -->
               <div class="widget">
                 <div class="widget-title">
                   <h3>Tags</h3>
                 </div>
                 <div class="widget-content list-menus">
-                    <a class="tags" href="#">Art</a>
-                    <a class="tags" href="#">Awesome</a>
-                    <a class="tags" href="#">Style</a>
-                    <a class="tags" href="#">Image</a>
-                    <a class="tags" href="#">Design</a>
-                    <a class="tags" href="#">Post</a>
-                    <a class="tags" href="#">Three</a>
-                    <a class="tags" href="#">Typhography</a>
-                    <a class="tags" href="#">BDinfosys</a>
+                  <?php if(!empty($this->general->getTags())):?>
+                    <?php foreach($this->general->getTags() as $tag):?>
+                        <a class="tags" href="<?php echo site_url('tag/'.$tag['slug'])?>"><?php echo ucwords($tag['name'])?></a>
+                    <?php endforeach;?>
+                  <?php endif;?>
                 </div>
               </div>

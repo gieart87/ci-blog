@@ -19,4 +19,5 @@
       </div>
   </div><!-- End Post -->
   <?php endforeach;?>
+  <?php echo $pagination;?>
 <?php endif;?>
