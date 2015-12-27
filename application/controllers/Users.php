@@ -268,6 +268,7 @@ class Users extends MY_Controller {
 	//activate the user
 	function activate($id, $code=false)
 	{
+
 		if ($code !== false)
 		{
 			$activation = $this->ion_auth->activate($id, $code);
@@ -280,13 +281,13 @@ class Users extends MY_Controller {
 		if ($activation)
 		{
 			//redirect them to the auth page
-			$this->session->set_flashdata('message', $this->ion_auth->messages());
+			$this->session->set_flashdata('message', message_box($this->ion_auth->messages(),'success'));
 			redirect("signin", 'refresh');
 		}
 		else
 		{
 			//redirect them to the forgot password page
-			$this->session->set_flashdata('message', $this->ion_auth->errors());
+			$this->session->set_flashdata('message', message_box($this->ion_auth->errors(),'danger'));
 			redirect("users/forgot_password", 'refresh');
 		}
 	}
