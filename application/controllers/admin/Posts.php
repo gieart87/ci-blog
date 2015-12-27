@@ -60,6 +60,10 @@ class Posts extends Admin_Controller {
             $data['created'] = date("Y-m-d H:i:s");
             $data['modified'] = date("Y-m-d H:i:s");
             $data['user_id'] = $this->session->userdata('user_id');
+            
+            if(!$this->ion_auth->is_admin()){
+                $data['status'] = 0;
+            }
 
             $this->Post->create($data);
       

@@ -29,12 +29,14 @@
                         <label for="post_name">Publish Date</label>
                         <input type="text" name="published_at" class="form-control datepicker" data-date-format="yyyy-mm-dd" id="publish_date" placeholder="Publish Date" value="<?php echo set_value('published_at');?>">
                     </div>
+                    <?php if($this->ion_auth->is_admin()):?>
                     <div class="form-group">
                         <label for="post_status">Status</label>
                         <?php
                             echo form_dropdown('status',$post_status,set_value('status'),array('class' => 'form-control'));
                         ?>
                     </div>
+                    <?php endif;?>
                     <div class="form-group">
                         <label for="post_status">Categories</label>
                         <?php
