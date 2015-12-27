@@ -8,6 +8,8 @@ Create database 'project_ciblogdb' or another name you want
 
 Import the .sql file from /sql/1_ciblogdb_structure_and_sample_data.sql to your database
 
+Rename file application/config/config.php.example to config.php
+
 Rename file application/config/database.php.example to database.php
 
 Configure the database.php (host,user,password, db) based on your database server configuration
