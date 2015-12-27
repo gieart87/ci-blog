@@ -58,4 +58,4 @@ $route['signout'] = 'users/signout';
 $route['signin'] = 'users/signin';
 $route['signup'] = 'users/signup';
 $route['read/(:any)'] = 'posts/read/$1';
-$route['auth/activate/(:any)'] = 'users/activate/$1';
+$route['auth/activate/(:any)/(:any)'] = 'users/activate/$1/$1';
