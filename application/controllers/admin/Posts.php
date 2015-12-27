@@ -47,7 +47,9 @@ class Posts extends Admin_Controller {
 
 		$this->form_validation->set_rules('title', 'title', 'required|is_unique[posts.title]');
         $this->form_validation->set_rules('body', 'body', 'required');
-        $this->form_validation->set_rules('status', 'status', 'required');
+        if($this->ion_auth->is_admin()){        
+            $this->form_validation->set_rules('status', 'status', 'required');
+        }
         $this->form_validation->set_rules('published_at', 'date', '');
         $this->form_validation->set_error_delimiters('', '<br/>');
         if ($this->form_validation->run() == TRUE) {
@@ -122,7 +124,11 @@ class Posts extends Admin_Controller {
 
         $this->form_validation->set_rules('title', 'title', 'required');
         $this->form_validation->set_rules('body', 'body', 'required');
-        $this->form_validation->set_rules('status', 'status', 'required');
+
+        if($this->ion_auth->is_admin()){        
+            $this->form_validation->set_rules('status', 'status', 'required');
+        }
+        
         $this->form_validation->set_rules('published_at', 'date', '');
         $this->form_validation->set_error_delimiters('', '<br/>');
         if ($this->form_validation->run() == TRUE) {
