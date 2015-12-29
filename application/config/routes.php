@@ -68,3 +68,6 @@ $route['category/(:any)/(:num)'] = 'posts/category/$1/$2';
 
 $route['tag/(:any)'] = 'posts/tag/$1';
 $route['tag/(:any)/(:num)'] = 'posts/tag/$1/$2';
+
+$route['blog'] = 'posts/index';
+$route['blog/(:num)'] = 'posts/index/$1';

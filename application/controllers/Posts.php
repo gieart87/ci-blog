@@ -12,7 +12,20 @@ class Posts extends Public_Controller {
 
 	public function index()
 	{
-		$posts = $this->Post->find();
+		$this->data['page_layout'] = 'archive';
+
+		$config['base_url'] = site_url('blog/');
+		$config['total_rows'] = count($this->Post->find_active());
+		$config['per_page'] = 5;
+		$config["uri_segment"] = 2;
+     
+        $this->data['posts'] = $this->Post->find_active($config['per_page'], $this->uri->segment(2));
+        
+        $this->data['pagination'] = $this->bootstrap_pagination($config);
+
+        $this->data['header'] = $this->load->view('themes/'.$this->theme.'/posts/header',$this->data, TRUE);
+        
+		$this->render('posts/index');
 	}
 
 	public function read($slug){

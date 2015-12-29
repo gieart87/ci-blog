@@ -40,6 +40,10 @@
           <?php if(!empty($tag)):?>
             <h2>Tag : <?php echo $tag['name']?> </h2>
           <?php endif;?>
+
+          <?php if(empty($category) && empty($tag)):?>
+            <h2>Blog</h2>
+          <?php endif;?>
         </div>
       </section>
       <?php endif;?>
