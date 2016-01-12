@@ -62,13 +62,13 @@ class Groups extends Admin_Controller {
 	}
 
 	public function delete($id = null){
-		if(!empty($id)){
-			$this->Group->delete($id);
-			$this->session->set_flashdata('message',message_box('Group has been deleted','success'));
-			redirect('admin/groups/index');
-		}else{
-			$this->session->set_flashdata('message',message_box('Invalid id','danger'));
-			redirect('admin/groups/index');
-		}
+		// if(!empty($id)){
+		// 	$this->Group->delete($id);
+		// 	$this->session->set_flashdata('message',message_box('Group has been deleted','success'));
+		// 	redirect('admin/groups/index');
+		// }else{
+		// 	$this->session->set_flashdata('message',message_box('Invalid id','danger'));
+		// 	redirect('admin/groups/index');
+		// }
 	}
 }

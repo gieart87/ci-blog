@@ -13,7 +13,7 @@
                     <?php echo validation_errors(); ?>
                     <div class="form-group">
                         <label for="category_name">Group Name</label>
-                        <input type="text" name="name" class="form-control" id="category_name" placeholder="Name" value="<?php echo set_value('name', isset($group['name']) ? $group['name'] : '') ?>">
+                        <input type="text" name="name" readonly="readonly" class="form-control" id="category_name" placeholder="Name" value="<?php echo set_value('name', isset($group['name']) ? $group['name'] : '') ?>">
                     </div>
                     <div class="form-group">
                         <label for="category_name">Description</label>

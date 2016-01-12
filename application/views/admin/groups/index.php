@@ -22,7 +22,7 @@
 		                        <td><?php echo $group['description']?></td>
 		                        <td>
 		                        	<a href="<?php echo site_url('admin/groups/edit/'.$group['id'])?>"><span class="badge bg-green">edit</span></a>
-		                        	<a href="<?php echo site_url('admin/groups/delete/'.$group['id'])?>" onclick="return confirm('Are you sure?')"><span class="badge bg-red">delete</span></a>
+		                        	<!-- <a href="<?php //echo site_url('admin/groups/delete/'.$group['id'])?>" onclick="return confirm('Are you sure?')"><span class="badge bg-red">delete</span></a> -->
 		                        </td>
 		                    </tr>
                     	<?php endforeach;?>
