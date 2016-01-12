@@ -25,7 +25,7 @@ class Welcome extends Public_Controller {
 	public function index()
 	{
 		$this->data['home_page'] = 1;
-		$this->data['posts'] = $this->Post->find(3);
+		$this->data['posts'] = $this->Post->find_active(3);
 		$this->render('welcome');
 	}
 }
