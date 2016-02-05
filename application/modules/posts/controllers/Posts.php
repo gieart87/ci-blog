@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Posts extends Public_Controller {
+class Posts extends My_Controller {
 
 	public function __construct(){
 		parent::__construct();
@@ -25,7 +25,7 @@ class Posts extends Public_Controller {
 
         $this->data['header'] = $this->load->view('themes/'.$this->theme.'/posts/header',$this->data, TRUE);
         
-		$this->render('posts/index');
+		$this->load_theme('posts/index');
 	}
 
 	public function read($slug){
@@ -33,7 +33,7 @@ class Posts extends Public_Controller {
 		$this->data['post'] = $this->Post->find_by_slug($slug);
 		$this->data['header'] = $this->load->view('themes/'.$this->theme.'/posts/header',$this->data, TRUE);
 		$this->data['page_title'] = $this->data['post']['title'];
-		$this->render('posts/read');
+		$this->load_theme('posts/read');
 	}
 
 	public function category($slug = null){
@@ -52,7 +52,7 @@ class Posts extends Public_Controller {
 
         $this->data['header'] = $this->load->view('themes/'.$this->theme.'/posts/header',$this->data, TRUE);
         
-		$this->render('posts/index');
+		$this->load_theme('posts/index');
 	}
 
 	public function tag($slug = null){
@@ -71,6 +71,6 @@ class Posts extends Public_Controller {
 
         $this->data['header'] = $this->load->view('themes/'.$this->theme.'/posts/header',$this->data, TRUE);
         
-		$this->render('posts/index');
+		$this->load_theme('posts/index');
 	}
 }

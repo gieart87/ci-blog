@@ -39,7 +39,7 @@
                 <div class="footer">                                                               
                     <button type="submit" class="btn bg-olive btn-block">Sign me in</button>  
                     
-                    <p><a href="<?php echo site_url('users/forgot_password')?>">I forgot my password</a></p>
+                    <p><a href="<?php echo site_url('forgot_password')?>">I forgot my password</a></p>
                     
                     <a href="<?php echo site_url('signup')?>" class="text-center">Create new account</a>
                 </div>

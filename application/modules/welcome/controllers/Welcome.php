@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Welcome extends Public_Controller {
+class Welcome extends MY_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -26,6 +26,6 @@ class Welcome extends Public_Controller {
 	{
 		$this->data['home_page'] = 1;
 		$this->data['posts'] = $this->Post->find_active(3);
-		$this->render('welcome');
+		$this->load_theme('welcome');
 	}
 }

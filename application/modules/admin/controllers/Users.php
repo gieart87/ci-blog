@@ -1,15 +1,85 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Users extends Admin_Controller {
+class Users extends MY_Controller {
 
-	public function __construct(){
+	function __construct(){
 		parent::__construct();
+		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
+		$this->lang->load('auth');
 		$this->load->model('User');
 		$this->load->model('Group');
 		
 		$this->data['parent_menu'] = 'user';
 	}
+
+	//activate the user
+	function activate($id, $code=false)
+	{
+
+		if ($code !== false)
+		{
+			$activation = $this->ion_auth->activate($id, $code);
+		}
+		else if ($this->ion_auth->is_admin())
+		{
+			$activation = $this->ion_auth->activate($id);
+		}
+
+		if ($activation)
+		{
+			//redirect them to the auth page
+			$this->session->set_flashdata('message', message_box($this->ion_auth->messages(),'success'));
+			redirect("signin", 'refresh');
+		}
+		else
+		{
+			//redirect them to the forgot password page
+			$this->session->set_flashdata('message', message_box($this->ion_auth->errors(),'danger'));
+			redirect("users/forgot_password", 'refresh');
+		}
+	}
+
+	//deactivate the user
+	function deactivate($id = NULL)
+	{
+		$id = (int) $id;
+
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('confirm', $this->lang->line('deactivate_validation_confirm_label'), 'required');
+		$this->form_validation->set_rules('id', $this->lang->line('deactivate_validation_user_id_label'), 'required|alpha_numeric');
+
+		if ($this->form_validation->run() == FALSE)
+		{
+			// insert csrf check
+			$this->data['csrf'] = $this->_get_csrf_nonce();
+			$this->data['user'] = $this->ion_auth->user($id)->row();
+
+			$this->_render_page('users/deactivate_user', $this->data);
+		}
+		else
+		{
+			// do we really want to deactivate?
+			if ($this->input->post('confirm') == 'yes')
+			{
+				// do we have a valid request?
+				if ($this->_valid_csrf_nonce() === FALSE || $id != $this->input->post('id'))
+				{
+					show_error($this->lang->line('error_csrf'));
+				}
+
+				// do we have the right userlevel?
+				if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin())
+				{
+					$this->ion_auth->deactivate($id);
+				}
+			}
+
+			//redirect them back to the auth page
+			redirect('auth', 'refresh');
+		}
+	}
+
 
 	public function index(){
 		$this->allow_group_access(array('admin'));
@@ -21,7 +91,7 @@ class Users extends Admin_Controller {
 		$this->data['users'] = $this->User->find($config['per_page'], $this->uri->segment(4));
 
 		$this->data['pagination'] = $this->bootstrap_pagination($config);
-		$this->render('admin/users/index');
+		$this->load_admin('users/index');
 	}
 
 	public function add(){
@@ -54,7 +124,7 @@ class Users extends Admin_Controller {
 		}
 
 		$this->data['groups'] = $this->Group->find_list();
-		$this->render('admin/users/add');
+		$this->load_admin('users/add');
 	}
 
 	public function edit($id = null){
@@ -108,7 +178,7 @@ class Users extends Admin_Controller {
 		$this->data['user'] = $this->User->find_by_id($id);
 		$this->data['groups'] = $this->Group->find_list();
 
-		$this->render('admin/users/edit');
+		$this->load_admin('users/edit');
 	}
 
 	public function delete($id = null){
@@ -137,54 +207,6 @@ class Users extends Admin_Controller {
 	}
 
 
-	public function profile(){
-		$this->allow_group_access(array('admin','members'));
-		//validate form input
-		$this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'required|xss_clean');
-		$this->form_validation->set_rules('last_name', $this->lang->line('edit_user_validation_lname_label'), 'required|xss_clean');
-		$this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'required|xss_clean');
-		$this->form_validation->set_rules('company', $this->lang->line('edit_user_validation_company_label'), 'required|xss_clean');
-		$this->form_validation->set_rules('groups', $this->lang->line('edit_user_validation_groups_label'), 'xss_clean');
-
-		if (isset($_POST) && !empty($_POST))
-		{
-
-
-			$data = array(
-				'first_name' => $this->input->post('first_name'),
-				'last_name'  => $this->input->post('last_name'),
-				'company'    => $this->input->post('company'),
-				'phone'      => $this->input->post('phone'),
-			);
-
-
-			//update the password if it was posted
-			if ($this->input->post('password'))
-			{
-				$this->form_validation->set_rules('password', $this->lang->line('edit_user_validation_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[password_confirm]');
-				$this->form_validation->set_rules('password_confirm', $this->lang->line('edit_user_validation_password_confirm_label'), 'required');
-
-				$data['password'] = $this->input->post('password');
-			}
-
-
-			if ($this->form_validation->run() === TRUE)
-			{
-
-				
-				$this->ion_auth->update($user->id, $data);
-
-				//check to see if we are creating the user
-				//redirect them back to the admin page
-				$this->session->set_flashdata('message', message_box('Profile saved','success'));
-				redirect('admin/users/profile');
-			}
-		}
-
-		$this->data['user'] = $this->current_user;
-		$this->render('admin/users/profile');
-	}
-
 	function _get_csrf_nonce()
 	{
 		$this->load->helper('string');
@@ -208,4 +230,6 @@ class Users extends Admin_Controller {
 			return FALSE;
 		}
 	}
+
+
 }

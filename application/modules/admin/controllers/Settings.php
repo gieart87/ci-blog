@@ -5,8 +5,9 @@ class Settings extends Admin_Controller {
 
 	public function __construct(){
 		parent::__construct();
-		$this->load->model('Category');
 		$this->allow_group_access(array('admin'));
+		
+		$this->load->model('Category');
 		$this->data['parent_menu'] = 'post';
 	}
 
