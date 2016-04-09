@@ -5,12 +5,12 @@
  * and open the template in the editor.
  */
 
-class Menus extends Admin_Controller {
-
-    var $template = 'admin/admin_template';
+class Menus extends MY_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->allow_group_access(array('admin'));
+        
         $this->load->model('Menu');
         $this->load->model('Post');
 
@@ -20,7 +20,7 @@ class Menus extends Admin_Controller {
         $this->data['menus'] = $this->Menu->findAll();
         $this->data['menusList'] = $this->Menu->findList();
         $this->data['status'] = $this->Menu->status;
-        $this->render('admin/menus/index');
+        $this->load_admin('menus/index');
     }
 
     function add() {
@@ -50,7 +50,7 @@ class Menus extends Admin_Controller {
         $this->data['menus'] = $this->Menu->findAll();
         $this->data['status'] = $this->Menu->status;
         $this->data['all_post_urls'] = $this->Post->all_urls();
-        $this->render('admin/menus/add');
+        $this->load_admin('menus/add');
     }
 
     function edit($id = null) {
@@ -85,7 +85,7 @@ class Menus extends Admin_Controller {
         $this->data['menus'] = $this->Menu->findAll();
         $this->data['status'] = $this->Menu->status;
         $this->data['all_post_urls'] = $this->Post->all_urls();
-        $this->render('admin/menus/edit');
+        $this->load_admin('menus/edit');
     }
 
     function up($position = null) {

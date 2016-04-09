@@ -5,8 +5,12 @@ class Users extends MY_Controller {
 
 	function __construct(){
 		parent::__construct();
+		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
+		$this->lang->load('auth');
+		$this->load->model('User');
+		$this->load->model('Group');
 		
-		$this->data['base_assets_url'] = BASE_URI.'assets/admin/';
+		$this->data['parent_menu'] = 'user';
 	}
 
 	public function signin(){
@@ -14,7 +18,7 @@ class Users extends MY_Controller {
 			redirect('admin');
 		}
 		
-		$this->data['page_title'] = 'Sign In - CI Blog';
+		$this->data['page_title'] = 'Sign In';
 		//validate form input
 		$this->form_validation->set_rules('identity', 'Email', 'required');
 		$this->form_validation->set_rules('password', 'Password', 'required');
@@ -41,7 +45,7 @@ class Users extends MY_Controller {
 			}
 		}
 
-		$this->render(null, 'admin/users/signin');
+		$this->load_admin('users/signin', false);
 	}
 
 	public function signout(){
@@ -137,8 +141,8 @@ class Users extends MY_Controller {
 			}
 
 			//set any errors and display the form
-			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-			$this->render(null, 'admin/users/forgot_password');
+			$this->data['message'] = message_box((validation_errors()) ? validation_errors() : $this->session->flashdata('message'),'error');
+			$this->load_admin('users/forgot_password', false);
 		}
 		else
 		{
@@ -221,7 +225,7 @@ class Users extends MY_Controller {
 				$this->data['code'] = $code;
 
 				//render
-				$this->render(null, 'admin/users/reset_password');
+				$this->load_admin('users/reset_password',false);
 			}
 			else
 			{
@@ -432,10 +436,58 @@ class Users extends MY_Controller {
 				'value' => $this->form_validation->set_value('password_confirm'),
 			);
 
-			$this->render(null,'admin/users/signup');
+			$this->load_admin('users/signup', false);
 		}
 	}
 
+
+	public function profile(){
+		$this->allow_group_access(array('admin','members'));
+		//validate form input
+		$this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'required|xss_clean');
+		$this->form_validation->set_rules('last_name', $this->lang->line('edit_user_validation_lname_label'), 'required|xss_clean');
+		$this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'required|xss_clean');
+		$this->form_validation->set_rules('company', $this->lang->line('edit_user_validation_company_label'), 'required|xss_clean');
+		$this->form_validation->set_rules('groups', $this->lang->line('edit_user_validation_groups_label'), 'xss_clean');
+
+		if (isset($_POST) && !empty($_POST))
+		{
+
+
+			$data = array(
+				'first_name' => $this->input->post('first_name'),
+				'last_name'  => $this->input->post('last_name'),
+				'company'    => $this->input->post('company'),
+				'phone'      => $this->input->post('phone'),
+			);
+
+
+			//update the password if it was posted
+			if ($this->input->post('password'))
+			{
+				$this->form_validation->set_rules('password', $this->lang->line('edit_user_validation_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[password_confirm]');
+				$this->form_validation->set_rules('password_confirm', $this->lang->line('edit_user_validation_password_confirm_label'), 'required');
+
+				$data['password'] = $this->input->post('password');
+			}
+
+
+			if ($this->form_validation->run() === TRUE)
+			{
+
+				
+				$this->ion_auth->update($user->id, $data);
+
+				//check to see if we are creating the user
+				//redirect them back to the admin page
+				$this->session->set_flashdata('message', message_box('Profile saved','success'));
+				redirect('admin/users/profile');
+			}
+		}
+
+		$this->data['user'] = $this->current_user;
+		$this->load_admin('users/profile');
+	}
 
 
 	function _get_csrf_nonce()

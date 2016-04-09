@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Assets extends Admin_Controller {
+class Assets extends MY_Controller {
 
 	public function __construct(){
 		parent::__construct();
@@ -21,7 +21,7 @@ class Assets extends Admin_Controller {
 			$this->data['total_pages'] = ceil($this->db->get('assets')->num_rows() / $limit);
 			$this->data['current_page'] = $page;
 
-			$this->load->view('admin/assets/browse',$this->data);
+			$this->load_admin('assets/browse', false);
 		}
 	}
 
@@ -38,7 +38,7 @@ class Assets extends Admin_Controller {
 			$this->data['total_pages'] = ceil($this->db->get('assets')->num_rows() / $limit);
 			$this->data['current_page'] = $page;
 
-			$this->load->view('admin/assets/browse_assets',$this->data);
+			$this->load_admin('assets/browse_assets',false);
 		}
 	}
 

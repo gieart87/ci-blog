@@ -9,8 +9,12 @@ function print_data($data){
 
 function message_box($msg, $status = 'success'){
 	$response = '';
+	$class = 'danger';
+	if($status == 'success'){
+		$class = 'success';
+	}
 	if(!empty($msg)){
-		$response = '<div class="alert alert-'.$status.' no-margin" style="margin-bottom:15px!important;">'.$msg.'</div>';
+		$response = '<div class="alert alert-'.$class.' no-margin" style="margin-bottom:15px!important;">'.$msg.'</div>';
 	}
 	return $response;
 }

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Categories extends Admin_Controller {
+class Categories extends MY_Controller {
 
 	public function __construct(){
 		parent::__construct();
@@ -20,7 +20,7 @@ class Categories extends Admin_Controller {
 		$this->data['categories'] = $this->Category->find($config['per_page'], $this->uri->segment(4));
 
 		$this->data['pagination'] = $this->bootstrap_pagination($config);
-		$this->render('admin/categories/index');
+		$this->load_admin('categories/index');
 	}
 
 	public function add(){
@@ -37,7 +37,7 @@ class Categories extends Admin_Controller {
 			redirect('admin/categories/index');
 		}
 
-		$this->render('admin/categories/add');
+		$this->load_admin('categories/add');
 	}
 
 	public function edit($id = null){
@@ -60,7 +60,7 @@ class Categories extends Admin_Controller {
 
 		$this->data['category'] = $this->Category->find_by_id($id);
 
-		$this->render('admin/categories/edit');
+		$this->load_admin('categories/edit');
 	}
 
 	public function delete($id = null){

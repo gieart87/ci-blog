@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Pages extends Admin_Controller {
+class Pages extends MY_Controller {
 
 	public function __construct(){
 		parent::__construct();
-		$this->load->model('Page');
-
         $this->allow_group_access(array('admin'));
+        
+		$this->load->model('Page');
         $this->data['parent_menu'] = 'page';
     
 	}
@@ -38,7 +38,7 @@ class Pages extends Admin_Controller {
         endif;
         $this->data['pagination'] = $this->bootstrap_pagination($config);
         
-		$this->render('admin/pages/index');
+		$this->load_admin('pages/index');
 	}
 
 	public function add(){
@@ -62,7 +62,7 @@ class Pages extends Admin_Controller {
             redirect('admin/pages');
         }
 
-       	$this->render('admin/pages/add');
+       	$this->load_admin('pages/add');
 	}
 
 	public function edit($id = null){
@@ -87,7 +87,7 @@ class Pages extends Admin_Controller {
         }
         $this->data['page'] = $this->Page->find_by_id($id);
 
-        $this->render('admin/pages/edit');
+        $this->load_admin('pages/edit');
 	}
 
 	public function delete($id = null){
