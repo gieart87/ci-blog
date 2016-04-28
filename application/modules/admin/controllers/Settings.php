@@ -79,5 +79,6 @@ class Settings extends Admin_Controller {
 
 	public function update_multiple(){
 		#test commit 
+		#test commit di branch sendiri
 	}
 }
