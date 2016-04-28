@@ -78,6 +78,6 @@ class Settings extends Admin_Controller {
 	}
 
 	public function update_multiple(){
-		
+		#test commit 
 	}
 }
