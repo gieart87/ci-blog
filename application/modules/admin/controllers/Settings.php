@@ -76,4 +76,8 @@ class Settings extends Admin_Controller {
 			redirect('admin/categories/index');
 		}
 	}
+
+	public function update_multiple(){
+		
+	}
 }
