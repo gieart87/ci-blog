@@ -10,7 +10,7 @@ Basic CMS based on CodeIgniter 3.x
 
 4. Press the "Install" button
 
-5. Done (Remove the install folder /install)
+5. Done, visit your url http://localhost/ci-blog/ (Note: Remove the install folder /install)
 
 
 Sampel Accounts:

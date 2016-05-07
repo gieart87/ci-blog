@@ -46,72 +46,59 @@ if($_POST) {
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" class="bg-black">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-		<title>Install | Your App</title>
-
+		<title>Install | CI-Blog (Simpe CMS based on CodeIgniter 3.x)</title>
+		<link href="../assets/admin/default/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="../assets/admin/default/css/AdminLTE.css" rel="stylesheet" type="text/css" />
 		<style type="text/css">
-		  body {
-		    font-size: 75%;
-		    font-family: Helvetica,Arial,sans-serif;
-		    width: 300px;
-		    margin: 0 auto;
-		  }
-		  input, label {
-		    display: block;
-		    font-size: 18px;
-		    margin: 0;
-		    padding: 10px;
-		    border-radius:10px;
-		  }
-		  label {
-		    margin-top: 20px;
-		  }
-		  input.input_text {
-		    width: 270px;
-		  }
-		  input#submit {
-		    margin: 25px auto 0;
-		    font-size: 25px;
-		  }
-		  fieldset {
-		    padding: 15px;
-		    border-radius:10px;
-		  }
-		  legend {
-		    font-size: 18px;
-		    font-weight: bold;
-		  }
-		  .error {
-		    background: #ffd1d1;
-		    border: 1px solid #ff5858;
-        padding: 4px;
+		  legend{
+		  	font-weight: 300;
+		  	font-size: 14px;
+		  	text-transform: uppercase;
 		  }
 		</style>
 	</head>
-	<body>
+		<body class="bg-black">
+        	<div class="form-box" id="login-box">
+            	<div class="header">Install CI-Blog</div>
 
-    <center><h1>Install</h1></center>
-    <?php if(is_writable($db_config_path)){?>
+			    <?php if(is_writable($db_config_path)):?>
+					  
+					  <form id="install_form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+					  	<div class="body bg-gray">
+					  	<?php if(isset($message)) {echo '<div class="alert alert-danger">' . $message . '</div>';}?>
+					        <fieldset>
+					          <legend>Database settings</legend>
+					          <div class="form-group">
+					          	<label for="hostname">Hostname</label>
+					          	<input type="text" id="hostname" value="localhost" class="form-control" name="hostname" />
+					          </div>
+					          <div class="form-group">
+					          	<label for="username">Username</label>
+					          	<input type="text" id="username" class="form-control" name="username" />
+					          </div>
+					          <div class="form-group">
+					          	<label for="password">Password</label>
+					          	<input type="password" id="password" class="form-control" name="password" />
+					          </div>
+					          <div class="form-group">
+					          	<label for="database">Database Name</label>
+					          	<input type="text" id="database" class="form-control" name="database" />
+					          </div>
+					        </fieldset>
+			        	</div>
+			        	<div class="footer">                                                               
+		                    <button type="submit" class="btn bg-olive btn-block">Install Now</button>  
+		                </div>
+					  </form>
 
-		  <?php if(isset($message)) {echo '<p class="error">' . $message . '</p>';}?>
-
-		  <form id="install_form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-        <fieldset>
-          <legend>Database settings</legend>
-          <label for="hostname">Hostname</label><input type="text" id="hostname" value="localhost" class="input_text" name="hostname" />
-          <label for="username">Username</label><input type="text" id="username" class="input_text" name="username" />
-          <label for="password">Password</label><input type="password" id="password" class="input_text" name="password" />
-          <label for="database">Database Name</label><input type="text" id="database" class="input_text" name="database" />
-          <input type="submit" value="Install" id="submit" />
-        </fieldset>
-		  </form>
-
-	  <?php } else { ?>
-      <p class="error">Please make the application/config/database.php file writable. <strong>Example</strong>:<br /><br /><code>chmod 777 application/config/database.php</code></p>
-	  <?php } ?>
-
+				  <?php else: ?>
+			      <p class="error">Please make the application/config/database.php file writable. <strong>Example</strong>:<br /><br /><code>chmod 777 application/config/database.php</code></p>
+				  <?php endif ?>
+			</div>
+		</body>
 	</body>
 </html>
