@@ -59,6 +59,7 @@ $route['admin'] = 'admin/dashboard';
 $route['signout'] = 'users/signout';
 $route['signin'] = 'users/signin';
 $route['signup'] = 'users/signup';
+$route['forgot_password'] = 'users/forgot_password';
 $route['auth/activate/(:num)/(:any)'] = 'users/activate/$1/$2';
 
 $route['read/(:any)'] = 'posts/read/$1';
