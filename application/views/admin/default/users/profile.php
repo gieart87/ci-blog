@@ -6,7 +6,7 @@
                 <h3 class="box-title">My Profile</h3>
             </div><!-- /.box-header -->
             <!-- form start -->
-            <?php echo form_open('admin/users/profile');?>
+            <?php echo form_open('users/profile');?>
                 <input type="hidden" name="id" value="<?php echo $user['id']?>">
                 <div class="box-body">
                     <?php echo $this->session->flashdata('message');?>

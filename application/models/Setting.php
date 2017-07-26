@@ -33,6 +33,15 @@ class Setting extends CI_Model {
         $this->db->update($this->table, $data);
     }
 
+    function update_by_key($key,$value) {
+        $data = array(
+            'value' => $value
+        );
+
+        $this->db->where('key', $key);
+        $this->db->update($this->table, $data);
+    } 
+
     function findByKey($key) {
         $this->db->select('*');
         $this->db->where('key', $key);

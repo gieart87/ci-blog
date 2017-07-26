@@ -20,8 +20,12 @@ admin => username : admin@admin.com password:password
 members => username : members@website.com password:12345678
 
 
-Credits:
+# Credits:
+
 http://codeigniter.com
+
 http://getbootstrap.com
+
 http://wowbootstrap.com
+
 https://github.com/mikecrittenden/codeigniter-installer
